@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const controller = require('./controller');
+// const controller = require('./controller');
 
 const router = Router();
 
@@ -8,7 +8,7 @@ const router = Router();
 //     next()
 // }
 
-router.get('/', controller.getUniversities);
+// router.get('/', controller.getUniversities);
 // router.post('/add', controller.addUniversity);
 // router.get('/:id', controller.getUniversityById);
 // router.put('/:id', controller.editUniversity)

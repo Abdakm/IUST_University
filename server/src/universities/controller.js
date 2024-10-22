@@ -1,4 +1,4 @@
-const pool = require('../../db/dbUniversity');
+// const pool = require('../../db/dbUniversity');
 const queries = require('./quaries');
 
 

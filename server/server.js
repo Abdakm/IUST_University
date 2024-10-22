@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-
+const PORT = 4000;
 // MiddleWare
 // app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -20,5 +20,5 @@ app.use("/universities", universitiesRoutes);
 app.use("/user", usersRoutes);
 
 app.listen(PORT, () => {
-  console.log("the server is on port " + 4000);
+  console.log("the server is on port " + PORT);
 });
