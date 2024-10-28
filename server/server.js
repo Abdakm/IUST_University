@@ -16,13 +16,11 @@ app.use(
 app.use(express.json());
 
 const universitiesRoutes = require("./src/universities/routes");
-const usersRoutes = require("./src/users/routes");
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "message" });
 });
 app.use("/universities", universitiesRoutes);
-app.use("/user", usersRoutes);
 
 app.listen(PORT, () => {
   console.log("the server is on port " + PORT);
