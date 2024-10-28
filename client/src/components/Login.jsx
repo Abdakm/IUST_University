@@ -1,34 +1,52 @@
-import React from "react";
-import { useStore } from "../contexts/colorContext";
+import React, { useEffect, useRef } from "react";
+import { logo } from "../assets";
+import { Link } from "react-router-dom";
 
 const Login = () => {
-  const { primaryColor, secondColor, thirdColor } = useStore();
-
+  const header = useRef();
   return (
     <div
-      className="h-screen flex items-center justify-center"
-      style={{ backgroundColor: primaryColor }}>
-      <form className="max-w-sm w-full bg-white p-10 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-6 text-center">Login</h2>
+      className="h-screen flex items-center justify-center bg-primary text-white"
+      style={{
+        backgroundImage: `url(${logo})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "300px",
+        backgroundPosition: "center",
+      }}>
+      <form
+        className="max-w-sm w-full bg-black/75 rounded-lg shadow-lg"
+        style={{ padding: "10px" }}>
+        <div
+          ref={header}
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "5px 0px",
+          }}>
+          <h2 className="text-2xl font-semibold text-center">Login</h2>
+          <Link to={"/"}>
+            <img src={logo} style={{ width: "50px", height: "50px" }} />
+          </Link>
+        </div>
         <div className="mb-5">
           <label
-            htmlFor="email"
-            className="block mb-2 text-sm font-medium text-gray-900">
-            Your email
+            htmlFor="username"
+            className="block mb-2 text-sm font-medium text-white">
+            Username
           </label>
           <input
-            type="email"
-            id="email"
+            type="text"
+            id="username"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder="name@flowbite.com"
             required
           />
         </div>
         <div className="mb-5">
           <label
             htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900">
-            Your password
+            className="block mb-2 text-sm font-medium text-white">
+            Password
           </label>
           <input
             type="password"

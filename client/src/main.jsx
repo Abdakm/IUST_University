@@ -13,12 +13,17 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { store, persistor } from "./app/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import Login from "./components/Login.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <Page404 />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

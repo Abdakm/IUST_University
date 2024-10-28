@@ -4,6 +4,7 @@ import { ColorProvider } from "./contexts/colorContext";
 
 import useLocalStorage from "./hooks/useLocalStorage";
 import Login from "./components/Login";
+import Home from "./components/Home";
 function App() {
   /*
   const ob = {
@@ -25,9 +26,9 @@ function App() {
   */
 
   return (
-    <div>
+    <div className="select-none">
       <ColorProvider>
-        <Login />
+        <Home />
       </ColorProvider>
     </div>
   );
