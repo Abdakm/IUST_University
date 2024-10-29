@@ -8,10 +8,6 @@ const router = Router();
 //     next()
 // }
 
-router.get("/", controller.authentication);
-// router.post('/add', controller.addUniversity);
-// router.get('/:id', controller.getUniversityById);
-// router.put('/:id', controller.editUniversity)
-// router.delete('/:id', controller.deleteUniversity);
+router.post("/", controller.authentication);
 
 module.exports = router;
