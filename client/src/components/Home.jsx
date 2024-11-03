@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import Navbar from "./Navbar";
 import { useStore } from "../contexts/userContext";
 import Hero from "./Hero";
+import About from "./About"
 const Home = () => {
   const { user } = useStore();
   console.log(user);
@@ -12,19 +13,7 @@ const Home = () => {
       <Navbar />
       <Hero />
       {/* About Section */}
-      <section className="py-20 bg-gray-100 text-gray-700">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-6">About Us</h2>
-          <p className="text-lg mb-4">
-            Our university has a long history of academic excellence and
-            community service. We offer a range of programs and degrees designed
-            to equip students for success in today’s global society.
-          </p>
-          <Link to="/about" className="text-blue-600 hover:underline">
-            Learn more
-          </Link>
-        </div>
-      </section>
+      <About />
 
       {/* Programs Section */}
       <section className="py-20 bg-white text-gray-700">
