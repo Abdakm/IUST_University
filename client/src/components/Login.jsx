@@ -1,24 +1,37 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { logo } from "../assets";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { useStore } from "../contexts/userContext";
 
 const Login = () => {
   const header = useRef();
   const navigate = useNavigate();
+  const [message, setMessage] = useState(null);
+
+  const { user, setUser } = useStore();
+  console.log(user);
 
   function onSubmit() {
     console.log("send it to authentication table >>>");
+    setMessage(null);
     const { username, password } = values;
     axios
       .post("http://localhost:4000/universities", {
         username,
         password,
       })
-      .then((res) => navigate("/", { replace: true }))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        Cookies.set("username", values.username, { expires: 7 }); // expires in 7 days
+        setUser(values.username);
+        navigate("/", { replace: true });
+      })
+      .catch((err) => {
+        setMessage(err.response?.data?.message || "An error occurred.");
+      });
   }
 
   const { values, touched, errors, handleSubmit, handleChange, handleBlur } =
@@ -47,6 +60,7 @@ const Login = () => {
         onSubmit={handleSubmit}
         className="max-w-sm w-full bg-black/75 rounded-lg shadow-lg"
         style={{ padding: "10px" }}>
+        {message && <p className="text-red-700">{message}</p>}
         <div
           ref={header}
           style={{

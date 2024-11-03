@@ -1,0 +1,20 @@
+Frontend:
+1- react (by vite)
+2- react-router-dom
+3- gsap
+4- redux (npm i @reduxjs/toolkit) (npm i react-redux)
+5- axios
+6- react-icons
+7- tailwind
+8- formik
+9- yup
+10- socket.io-client
+11- dotenv
+12- js-cookie
+
+Backend:
+1- express
+2- cors
+3- pg
+4- bcryptjs
+5- socket.io

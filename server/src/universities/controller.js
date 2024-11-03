@@ -9,7 +9,7 @@ const authentication = (req, res) => {
     if (!UserExsts) {
       return res
         .status(401)
-        .json({ message: "There is Error in your information" });
+        .json({ message: "There is an Error in your information" });
     }
     return res.status(200).json(result.rows);
   });
