@@ -16,7 +16,6 @@ const Login = () => {
   console.log(user);
 
   function onSubmit() {
-    console.log("send it to authentication table >>>");
     setMessage(null);
     const { username, password } = values;
     axios
@@ -27,7 +26,7 @@ const Login = () => {
       .then((res) => {
         Cookies.set("username", values.username, { expires: 7 }); // expires in 7 days
         setUser(values.username);
-        navigate("/", { replace: true });
+        navigate("/", { replace: true, state: {username: username} });
       })
       .catch((err) => {
         setMessage(err.response?.data?.message || "An error occurred.");

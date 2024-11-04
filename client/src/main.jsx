@@ -15,7 +15,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { store, persistor } from "./app/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import Login from "./components/Login.jsx";
+import { Login, Account } from "./components/index";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +27,10 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  {
+    path: '/account',
+    element: <Account />
+  }
 ]);
 
 createRoot(document.getElementById("root")).render(

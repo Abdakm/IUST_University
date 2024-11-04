@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-// context
-import { UserProvider } from "./contexts/userContext";
-import useLocalStorage from "./hooks/useLocalStorage";
-import Login from "./components/Login";
-import Home from "./components/Home";
-import { useLocation } from "react-router-dom";
+import { Home, Login, Account } from "./components/index";
+import { useStore } from "./contexts/userContext";
+
 
 function App() {
-  const loc = useLocation();
-
+  const { user, setUser } = useStore();
   return (
     <div className="select-none">
-      <Home />
+      { user === null 
+      ? <Home />
+      : <Account />
+      }
     </div>
   );
 }

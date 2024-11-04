@@ -11,6 +11,7 @@ const Navbar = () => {
   function handleLogout() {
     Cookies.remove("username");
     setUser(null);
+    location.reload();
   }
 
   return (
