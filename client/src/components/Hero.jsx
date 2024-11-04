@@ -11,22 +11,29 @@ gsap.registerPlugin(useGSAP);
 gsap.registerPlugin(ScrollTrigger)
 const Hero = () => {
 
-  // useGSAP(() => {
-  //   const tl = gsap.timeline({defaults:{duration: 1, opacity: 0, ease: 'power2.out'}});
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      defaults: {
+        duration: 1,
+        opacity: 0,
+        ease: 'power2.out'
+      } 
+    });
 
-  //   tl.from('.hero-title', {
-  //     ScrollTrigger: {
-  //       trigger: '.hero-title',
-  //       start: 'top 80%', 
-  //       end: 'top 50%',
-  //       toggleActions: 'play none none restart',
-  //       invalidateOnRefresh: true
-  //     }, y: -50 })
-  //     .from('.hero-text', { y: 30 }, '-=0.5')
-  //     .from('#login-button', { scale: 0, duration: 0.5, ease: 'back.out(1.7)' }, '-=0.2')
-  //     .from('#logo', { x: -250, rotate: -300 }, '-=0.5');
-  //   }
-  // );
+    tl.from('.hero-title', { y: -50 })
+      .from('.hero-text', { y: 30 }, '-=0.5')
+      .from('#login-button', { scale: 0, duration: 0.5, ease: 'back.out(1.7)' }, '-=0.2')
+      .from('#logo', { x: -250, rotate: -300 }, '-=0.5') 
+    
+      gsap.to('#logo', {
+            scale: 0.9,
+            yoyo: true,
+            repeat: -1,  
+            duration: 1,  
+            ease: 'power1.inOut',
+            delay: tl.duration() // Start after the initial timeline completes
+          })
+    });
   return (
     <section className="bg-primary">
       <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
