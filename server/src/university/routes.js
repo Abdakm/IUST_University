@@ -9,5 +9,6 @@ const router = Router();
 // }
 
 router.post("/", controller.authentication);
+router.post('/studentInformation', controller.studentInformation);
 
 module.exports = router;

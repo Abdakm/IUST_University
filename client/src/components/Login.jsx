@@ -13,20 +13,22 @@ const Login = () => {
   const [message, setMessage] = useState(null);
 
   const { user, setUser } = useStore();
-  console.log(user);
 
   function onSubmit() {
+    //import.meta.env.VITE_API_URL
     setMessage(null);
     const { username, password } = values;
     axios
-      .post("http://localhost:4000/universities", {
+      .post("http://localhost:4000/university", {
         username,
         password,
       })
       .then((res) => {
-        Cookies.set("username", values.username, { expires: 7 }); // expires in 7 days
-        setUser(values.username);
-        navigate("/", { replace: true, state: {username: username} });
+        console.log(res.data)
+        Cookies.set("username", res.data[0].username, { expires: 7 }); // expires in 7 days
+        Cookies.set("id", res.data[0].student_id, { expires: 7 }); // expires in 7 days
+        setUser(res.data[0].username);
+        navigate("/", { replace: true, state: {username: res.data[0].username} });
       })
       .catch((err) => {
         setMessage(err.response?.data?.message || "An error occurred.");
