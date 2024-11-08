@@ -8,6 +8,7 @@ import Navbar from './Navbar'
 import Page404 from './Page404'
 import Toggle from './Toggle'
 import Account from './Account'
+import Sidebar from './Sidebar'
 
 export {
 	About,
@@ -19,5 +20,6 @@ export {
 	Navbar,
 	Page404,
 	Toggle,
-	Account
+	Account,
+	Sidebar
 }

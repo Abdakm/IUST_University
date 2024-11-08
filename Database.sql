@@ -68,6 +68,7 @@ CREATE TABLE available_material (
     available_seats INT NOT NULL,
     status BOOLEAN NOT NULL,
     build_number VARCHAR(10),
+    hall_number VARCHAR(10),
     description TEXT,
     CONSTRAINT fk_doctor FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id) ON DELETE CASCADE,
     CONSTRAINT fk_material FOREIGN KEY (material_id) REFERENCES material(material_id) ON DELETE CASCADE

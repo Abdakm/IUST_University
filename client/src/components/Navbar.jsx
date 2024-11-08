@@ -3,7 +3,7 @@ import { useState } from "react";
 import { logo } from "../assets";
 import { useStore } from "../contexts/userContext";
 import Cookies from "js-cookie";
-import Sidebar from './Sidebar'
+import {Sidebar, Toggle} from './index'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,13 +61,16 @@ const Navbar = () => {
               </Link>
             </li>
             {user == null && (
-              <li>
-                <Link
-                  to={"/login"}
-                  className="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-white ">
-                  Login
-                </Link>
-              </li>
+              <div>
+                <li>
+                  <Link
+                    to={"/login"}
+                    className="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-white ">
+                    Login
+                  </Link>
+                </li>
+              <Toggle />
+              </div>
             )}
             {user && (
               <div className="flex items-center justify-center">
@@ -78,6 +81,7 @@ const Navbar = () => {
                   Logout
                 </button>
               </li>
+              <Toggle />
               <Sidebar />
               </div>
             )}

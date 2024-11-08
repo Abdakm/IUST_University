@@ -21,7 +21,7 @@ export default function Toggle() {
   };
 
   return (
-    <div>
+    <div className="items-center flex ml-4">
       <input
         type="checkbox"
         className="checkbox"
