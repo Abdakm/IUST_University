@@ -2,7 +2,7 @@ import './toggle.css';
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useState, useEffect } from 'react';
 
-export default function Toggle() {
+export default function Toggle({style}) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -21,18 +21,18 @@ export default function Toggle() {
   };
 
   return (
-    <div className="items-center flex ml-4">
+    <div className={`items-center flex md:ml-4 ${style}`}>
       <input
         type="checkbox"
-        className="checkbox"
+        className={`checkbox`}
         id="checkbox"
         checked={isDarkMode}
         onChange={handleToggle}
         aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
       />
       <label htmlFor="checkbox" className="checkbox-label">
-        <FaMoon />
-        <FaSun />
+        <FaMoon className="fa-moon"/>
+        <FaSun className="fa-sun"/>
         <span className="ball"></span>
       </label>
     </div>

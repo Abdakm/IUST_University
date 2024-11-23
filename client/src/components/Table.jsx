@@ -1,4 +1,4 @@
-export default function Table(){
+export default function Table({header, information}){
 	return(
 		<div className="max-w-screen-2xl mt-8">
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">

@@ -11,6 +11,8 @@ const Navbar = () => {
 
   function handleLogout() {
     Cookies.remove("username");
+    Cookies.remove("name");
+    Cookies.remove("id");
     setUser(null);
     location.reload();
   }
@@ -61,15 +63,15 @@ const Navbar = () => {
               </Link>
             </li>
             {user == null && (
-              <div>
+              <div className="md:flex items-center justify-center">
                 <li>
                   <Link
                     to={"/login"}
-                    className="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-white ">
+                    className="block text-center py-2 px-3 text-white rounded md:hover:bg-transparent md:border-0 md:p-0 dark:text-white ">
                     Login
                   </Link>
                 </li>
-              <Toggle />
+              <Toggle style={'justify-center'}/>
               </div>
             )}
             {user && (

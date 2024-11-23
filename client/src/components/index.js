@@ -9,6 +9,8 @@ import Page404 from './Page404'
 import Toggle from './Toggle'
 import Account from './Account'
 import Sidebar from './Sidebar'
+import StudentInformation from './StudentInformation'
+import Table from './Table'
 
 export {
 	About,
@@ -21,5 +23,7 @@ export {
 	Page404,
 	Toggle,
 	Account,
-	Sidebar
+	Sidebar,
+	StudentInformation,
+	Table
 }
