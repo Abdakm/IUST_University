@@ -1,0 +1,65 @@
+SELECT 
+    exam.exam_id,
+    exam.degree,
+    exam.exam_type,
+    exam.attend,
+    student.student_id,
+    student.student_name,
+    available_material.id_available_material,
+    available_material.material_id,
+    available_material.doctor_id,
+    available_material.hall_id,
+    available_material.day_id,
+    available_material.time_in,
+    available_material.time_out
+FROM 
+    exam
+JOIN 
+    booking_online ON exam.booking_online_id = booking_online.booking_online_id
+JOIN 
+    student ON booking_online.student_id = student.student_id
+JOIN 
+    available_material ON booking_online.id_available_material = available_material.id_available_material
+WHERE 
+    student.student_id = '201810912';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT 
+    s.student_name,
+    s.email,
+    s.enrollment_date_at_uni,
+    d.doctor_name,
+    d.office_location,
+    d.years_of_experience,
+    m.name AS material_name,
+    m.code AS material_code,
+    am.available_seats,
+    am.status,
+    bo.enrollment_date AS booking_date
+FROM 
+    booking_online bo
+JOIN 
+    student s ON bo.student_id = s.student_id
+JOIN 
+    available_material am ON bo.id_available_material = am.id_available_material
+JOIN 
+    material m ON am.material_id = m.material_id
+JOIN 
+    doctor d ON am.doctor_id = d.doctor_id;

@@ -11,6 +11,7 @@ import Account from './Account'
 import Sidebar from './Sidebar'
 import StudentInformation from './StudentInformation'
 import Table from './Table'
+import LinkBox from './LinkBox'
 
 export {
 	About,
@@ -25,5 +26,6 @@ export {
 	Account,
 	Sidebar,
 	StudentInformation,
-	Table
+	Table,
+	LinkBox,
 }

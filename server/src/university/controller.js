@@ -27,7 +27,33 @@ const studentInformation = (req, res) => {
   })
 }
 
+const studentCourse = (req, res) => {
+  const { id } = req.params;
+  pool.query(queries.studentCourse, [ id ], (err, result) => {
+    if(err) return res.status(500).json({ message: "Internal Server Error"});
+    const UserInformation = result.rows.length;
+    if(!UserInformation){
+      return res.status(200).json({ message: "There is no courses"})
+    }
+    return res.status(200).json(result.rows)
+  })
+}
+
+const getDoctorSubDepartment = (req, res) => {
+  const { sub_department_id } = req.params;
+  pool.query(queries.getDoctorSubDepartment, [ sub_department_id ], (err, result) => {
+    if(err) return res.status(500).json({ message: "Internal Server Error"});
+    const UserInformation = result.rows.length;
+    if(!UserInformation){
+      return res.status(200).json({ message: "There is no Doctors "})
+    }
+    return res.status(200).json(result.rows)
+  })
+}
+
 module.exports = {
   authentication,
   studentInformation,
+  studentCourse,
+  getDoctorSubDepartment,
 };

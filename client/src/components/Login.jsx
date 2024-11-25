@@ -27,6 +27,7 @@ const Login = () => {
         console.log(res.data)
         Cookies.set("username", res.data[0].username, { expires: 7 }); // expires in 7 days
         Cookies.set("id", res.data[0].student_id, { expires: 7 }); // expires in 7 days
+        Cookies.set("sub_dep_id", res.data[0].sub_dep_id, { expires: 7 }) // expires in 7 days
         setUser(res.data[0].username);
         navigate("/", { replace: true, state: {username: res.data[0].username} });
       })

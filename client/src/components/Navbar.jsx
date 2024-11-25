@@ -4,6 +4,9 @@ import { logo } from "../assets";
 import { useStore } from "../contexts/userContext";
 import Cookies from "js-cookie";
 import {Sidebar, Toggle} from './index'
+import { MdOutlineNotificationsNone } from "react-icons/md";
+import { FaRegMessage } from "react-icons/fa6";
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +16,7 @@ const Navbar = () => {
     Cookies.remove("username");
     Cookies.remove("name");
     Cookies.remove("id");
+    Cookies.remove("sub_dep_id");
     setUser(null);
     location.reload();
   }
@@ -27,6 +31,13 @@ const Navbar = () => {
           <span className="self-center text-3xl font-extrabold whitespace-nowrap text-white">
             {user ? user.toUpperCase() : "IUST"}
           </span>
+            {
+              user && 
+              <div className='flex items-center justify-center gap-2'>
+                 <MdOutlineNotificationsNone fontSize={35} className='text-white hover:text-secondary hover:duration-500' />
+                 <FaRegMessage fontSize={25} strokeWidth={20} className='text-white hover:text-secondary hover:duration-500'/>
+              </div>
+            }
         </Link>
         <button
           onClick={() => setIsOpen(!isOpen)}

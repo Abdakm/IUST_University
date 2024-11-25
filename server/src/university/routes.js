@@ -10,5 +10,7 @@ const router = Router();
 
 router.post("/", controller.authentication);
 router.post('/studentInformation', controller.studentInformation);
+router.get('/studentCourse/:id', controller.studentCourse);
+router.get('/getDoctorSubDepartment/:sub_department_id', controller.getDoctorSubDepartment);
 
 module.exports = router;
