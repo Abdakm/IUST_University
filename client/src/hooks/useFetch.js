@@ -1,7 +1,9 @@
 import { fetchApi } from './fetchApi' 
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function useFetch(endPoint) {
+	const navigate = useNavigate();
 
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(false)

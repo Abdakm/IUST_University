@@ -1,16 +1,17 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Table({ api, styles }) {
-    const [rows, setRows] = useState([]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        async function getRows() {
+        async function getData() {
             try {
                 const response = await axios.get(api);
-                setRows(response.data);
+                setData(response.data);
             } catch (err) {
                 setError(err.response?.data || err.message);
             } finally {
@@ -18,17 +19,16 @@ export default function Table({ api, styles }) {
             }
         }
 
-        if (api) getRows();
+        if (api) getData();
     }, [api]);
 
-    if (loading) return <div className='dark:text-white text-black'>Loading...</div>;
+    if (loading) return <div className="dark:text-white text-black">Loading...</div>;
     if (error) return <div>Error: {error}</div>;
-    if (rows.length === 0) return <div>No data available.</div>;
+    if (data.length === 0) return <div>No data available.</div>;
 
-    const headers = Object.keys(rows[0]);
-
-    let type = api.split('/').find(ele => ele === 'getDoctorSubDepartment');
-    console.log(rows)
+    const headers = Object.keys(data[0]);
+    const isDoctorSubDepartment = api.includes("getDoctorSubDepartment");
+    const isCourseSubDepartment = api.includes("getCourseSubDepartment");
 
     return (
         <div className={`max-w-screen-2xl mt-8 ${styles}`}>
@@ -37,31 +37,58 @@ export default function Table({ api, styles }) {
                     <thead className="text-xs text-white uppercase bg-primary dark:bg-third dark:text-white">
                         <tr>
                             {headers.map((header, index) => (
-                                <th key={index} scope="col" className={`${(type === 'getDoctorSubDepartment' && index == 0) ? 'hidden ' : ''}px-6 py-3 text-center`}>
-                                    {
-                                        (type === 'getDoctorSubDepartment' && index == 0) ?
-                                            null :
-                                            header
-                                    }
+                                <th
+                                    key={index}
+                                    scope="col"
+                                    className={`px-6 py-3 text-center ${
+                                        (isDoctorSubDepartment || isCourseSubDepartment) && index === 0 ? "hidden" : ""
+                                    }`}
+                                >
+                                    {(isDoctorSubDepartment || isCourseSubDepartment) && index === 0 ? null : header}
                                 </th>
                             ))}
                         </tr>
                     </thead>
                     <tbody>
-                        {rows.map((row, rowIndex) => (
-                            <tr key={rowIndex} className={`${rowIndex % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800" } border-b dark:border-gray-700`}>
+                        {data.map((row, rowIndex) => (
+                            <tr
+                                key={rowIndex}
+                                className={`${
+                                    rowIndex % 2 === 0
+                                        ? "bg-white dark:bg-gray-900"
+                                        : "bg-gray-50 dark:bg-gray-800"
+                                } border-b dark:border-gray-700`}
+                            >
                                 {headers.map((header, colIndex) => (
-                                    <td key={colIndex} className={`${(type === 'getDoctorSubDepartment' && colIndex == 0) ? 'hidden ' : ''}px-6 py-4 text-center`}> 
-                                        {
-                                            (type === 'getDoctorSubDepartment' && colIndex == 0)?
-                                                null :
-                                            type === 'getDoctorSubDepartment' ?
-                                            ( <a href={`doctors/${row['doctor_id']}`}>{row[header]}</a> ) : 
-                                            ( row[header] )
-                                        }
+                                    <td
+                                        key={colIndex}
+                                        className={`px-6 py-4 text-center 
+                                        ${ (isDoctorSubDepartment || isCourseSubDepartment) && colIndex === 0 ? "hidden" : "" }`}
+                                    >
+                                        {(isDoctorSubDepartment || isCourseSubDepartment) && colIndex === 0
+                                            ? null
+                                            : isDoctorSubDepartment && header === "doctor_name" // Example header key for the doctor link
+                                            ? (
+                                                <Link
+                                                    to={`doctor/${row["doctor_id"]}`}
+                                                    className="text-blue-500 hover:underline"
+                                                >
+                                                    {row[header]}
+                                                </Link>
+                                            )
+                                            : isCourseSubDepartment && header === "course_name" // Example header key for the doctor link
+                                            ? (
+                                                <Link
+                                                    to={`course/${row["material_id"]}`}
+                                                    className="text-blue-500 hover:underline"
+                                                    state={{materialName: row['course_name']}}
+                                                >
+                                                    {row[header]}
+                                                </Link>
+                                            )
+                                            : row[header]}
                                     </td>
-                                )
-                            )}
+                                ))}
                             </tr>
                         ))}
                     </tbody>

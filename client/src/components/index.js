@@ -12,6 +12,10 @@ import Sidebar from './Sidebar'
 import StudentInformation from './StudentInformation'
 import Table from './Table'
 import LinkBox from './LinkBox'
+import Doctor from './Doctor'
+import Certificates from './Certificates'
+import FileDownloadPage from './FileDownload/FileDownloadPage'
+import Page from './RegisterPage/Page'
 
 export {
 	About,
@@ -28,4 +32,8 @@ export {
 	StudentInformation,
 	Table,
 	LinkBox,
+	Doctor,
+	Certificates,
+	FileDownloadPage,
+	Page
 }

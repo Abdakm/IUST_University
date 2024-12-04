@@ -22,7 +22,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="bg-white relative">
+    <nav className="bg-[#111827] absolute top-0 w-full left-0" id="navbar">
       <div className="max-w-screen-2xl border-gray-200 border-b-4 flex px-10 flex-wrap items-center justify-between mx-auto p-4 w-full bg-primary">
         <Link
           to={"/"}

@@ -1,29 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
-import { logo } from "../assets";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { logo } from "../assets"; // Make sure this points to your image
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useStore } from "../contexts/userContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const header = useRef();
   const navigate = useNavigate();
   const [message, setMessage] = useState(null);
-
-  const { user, setUser } = useStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const { setUser } = useStore();
 
   function onSubmit() {
-    //import.meta.env.VITE_API_URL
     setMessage(null);
+    setIsLoading(true);
     const { username, password } = values;
+
     axios
       .post("http://localhost:4000/university", {
         username,
         password,
       })
-      .then((res) => {
+      .then((res) =>  {
         console.log(res.data)
         Cookies.set("username", res.data[0].username, { expires: 7 }); // expires in 7 days
         Cookies.set("id", res.data[0].student_id, { expires: 7 }); // expires in 7 days
@@ -32,6 +32,7 @@ const Login = () => {
         navigate("/", { replace: true, state: {username: res.data[0].username} });
       })
       .catch((err) => {
+        setIsLoading(false);
         setMessage(err.response?.data?.message || "An error occurred.");
       });
   }
@@ -50,79 +51,83 @@ const Login = () => {
     });
 
   return (
-    <div
-      className="h-screen flex items-center justify-center bg-primary text-white"
-      style={{
-        backgroundImage: `url(${logo})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "300px",
-        backgroundPosition: "center",
-      }}>
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-sm w-full bg-black/75 rounded-lg shadow-lg"
-        style={{ padding: "10px" }}>
-        {message && <p className="text-red-700">{message}</p>}
+    <div className="h-screen flex items-center justify-center bg-primary">
+      <div className="flex bg-white rounded-lg shadow-lg w-11/12 max-w-4xl px-10 py-4">
+        {/* Left Section - Image */}
         <div
-          ref={header}
+          className="hidden md:flex w-1/2 rounded-l-lg bg-contain bg-no-repeat bg-center"
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "5px 0px",
-          }}>
-          <h2 className="text-2xl font-semibold text-center">Login</h2>
-          <Link to={"/"}>
-            <img src={logo} style={{ width: "50px", height: "50px" }} />
-          </Link>
+            backgroundImage: `url(${logo})`, // Add a valid image path
+          }}
+        />
+
+        {/* Right Section - Form */}
+        <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
+          <h2 className="text-3xl font-semibold text-center mb-4">Welcome Back</h2>
+          {message && (
+            <div className="text-center mb-4 text-red-600 bg-red-100 border border-red-300 p-2 rounded-lg">
+              {message}
+            </div>
+          )}
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Username
+              </label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={values.username}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
+                  touched.username && errors.username
+                    ? "border-red-500"
+                    : "border-gray-300"
+                }`}
+              />
+              {touched.username && errors.username && (
+                <p className="text-sm text-red-500 mt-1">{errors.username}</p>
+              )}
+            </div>
+            <div className="mb-6">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
+                  touched.password && errors.password
+                    ? "border-red-500"
+                    : "border-gray-300"
+                }`}
+              />
+              {touched.password && errors.password && (
+                <p className="text-sm text-red-500 mt-1">{errors.password}</p>
+              )}
+            </div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+            >
+              {isLoading ? "Loading..." : "Login"}
+            </button>
+          </form>
         </div>
-        <div className="mb-5">
-          <label
-            htmlFor="username"
-            className="block mb-2 text-sm font-medium text-white">
-            Username
-          </label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            value={values.username}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            required
-          />
-          {touched.username && errors.username ? (
-            <div className="text-sm text-red-500 pl-5">{errors.username}</div>
-          ) : null}
-        </div>
-        <div className="mb-5">
-          <label
-            htmlFor="password"
-            className="block mb-2 text-sm font-medium text-white">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            required
-            autoComplete="on"
-          />
-          {touched.password && errors.password ? (
-            <div className="text-sm text-red-500 pl-5">{errors.password}</div>
-          ) : null}
-        </div>
-        <button
-          type="submit"
-          className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 transition duration-200">
-          Submit
-        </button>
-      </form>
+      </div>
     </div>
   );
 };
