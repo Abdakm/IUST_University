@@ -56,6 +56,20 @@ app.get("/", (req, res) => {
 });
 app.use("/university", universitiesRoutes);
 
+// Handle undefined routes
+app.use((req, res) => {
+  res.status(404).json({
+    error: "Endpoint not found",
+    message: `The route ${req.originalUrl} does not exist on this server.`,
+  });
+});
+
+// Centralized error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal Server Error", message: err.message });
+});
+
 app.listen(PORT, () => {
   console.log("the server is on port " + PORT);
 });

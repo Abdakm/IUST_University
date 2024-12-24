@@ -15,7 +15,7 @@ import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import { store, persistor } from "./app/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { Login, Account, Doctor, FileDownloadPage, Page, Page404 } from "./components/index";
+import { Login, Account, Doctor, FileDownloadPage, Page, Materials, Doctors, Page404 } from "./components/index";
 import Cookies from "js-cookie";
 
 const ProtectedRoute = ({ element }) => {
@@ -48,6 +48,14 @@ const router = createBrowserRouter([
   {
     path: "/registration",
     element: <ProtectedRoute element={<Page />} />,
+  },
+  {
+    path: "/materials",
+    element: <Materials />,
+  },
+  {
+    path: "/doctors",
+    element: <Doctors />,
   },
 ]);
 

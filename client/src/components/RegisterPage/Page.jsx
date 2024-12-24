@@ -8,13 +8,13 @@ import LoadingSpinner from './LoadingSpinner';
 import axios from 'axios'
 import useFetch from '../../hooks/useFetch'
 import { Navbar } from '../index'
+import { Toaster } from 'react-hot-toast';
 
-// import { store } from './store/store';
-// import { Provider, useSelector, useDispatch } from 'react-redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 // import { fetchCourses } from './store/coursesSlice';
 
 export default function Page (){
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const { items: courses, loading, error } = useSelector(state => state.courses);
 
   // useEffect(() => {
@@ -36,7 +36,7 @@ export default function Page (){
         <CourseList courses={data} />
       <Cart />
       </div>
-      {/*<Toaster position="top-right" />*/}
+      <Toaster position="top-right" />
     </div>
   );
 };

@@ -50,6 +50,13 @@ JOIN material m ON am.material_id = m.material_id AND m.sub_dep_id = 1
 JOIN doctor d ON am.doctor_id = d.doctor_id;
 `
 
+const otherdoctor = `
+SELECT d.doctor_id, d.doctor_name, d.office_location, d.years_of_experience, d.gender
+FROM doctor_sub_department dsd
+JOIN doctor d on d.doctor_id = dsd.doctor_id
+WHERE dsd.sub_dep_id = $1 and d.doctor_id <> $2;
+`
+
 module.exports = {
   authentication,
   studentInformation,
@@ -59,5 +66,6 @@ module.exports = {
   getDoctorInformation,
   getDoctorCertificates,
   getMaterilaFiles,
-  registration
+  registration,
+  otherdoctor
 };

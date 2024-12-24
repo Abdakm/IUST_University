@@ -21,7 +21,7 @@ const studentInformation = (req, res) => {
     if (err) return res.status(500).json({ message: "Internal Server Error"});
     const UserInformation = result.rows.length;
     if(!UserInformation){
-      return res.status(200).json({message: "There is no information"})
+      return res.status(201).json({message: "There is no information"})
     }
     return res.status(200).json(result.rows);
   })
@@ -33,7 +33,7 @@ const studentCourse = (req, res) => {
     if(err) return res.status(500).json({ message: "Internal Server Error"});
     const UserInformation = result.rows.length;
     if(!UserInformation){
-      return res.status(200).json({ message: "There is no courses"})
+      return res.status(201).json({ message: "There is no courses"})
     }
     return res.status(200).json(result.rows)
   })
@@ -45,7 +45,7 @@ const getDoctorSubDepartment = (req, res) => {
     if(err) return res.status(500).json({ message: "Internal Server Error"});
     const UserInformation = result.rows.length;
     if(!UserInformation){
-      return res.status(200).json({ message: "There is no Doctors "})
+      return res.status(201).json({ message: "There is no Doctors "})
     }
     return res.status(200).json(result.rows)
   })
@@ -57,7 +57,7 @@ const getCourseSubDepartment = (req, res) => {
     if(err) return res.status(500).json({ message: "Internal Server Error"});
     const CourseInformation = result.rows.length;
     if(!CourseInformation){
-      return res.status(200).json({ message: "There is no Courses "})
+      return res.status(201).json({ message: "There is no Courses "})
     }
     return res.status(200).json(result.rows)
   })
@@ -92,7 +92,7 @@ const getDoctorCertificates = (req, res) => {
     if(err) return res.status(500).json({ message: "Internal Server Error"});
     const CertificateInformaiton = result.rows.length;
     if(!CertificateInformaiton){
-      return res.status(200).json({ message: "There is no information"})
+      return res.status(201).json({ message: "There is no information"})
     }
     return res.status(200).json(result.rows);
   })
@@ -104,7 +104,7 @@ const getMaterilaFiles = (req, res) => {
     if(err) return res.status(500).json({ message: "Internal Server Error"});
     const FilesInormation = result.rows.length;
     if(!FilesInormation){
-      return res.status(200).json({ message: "There is no information"})
+      return res.status(201).json({ message: "There is no information"})
     }
     return res.status(200).json(result.rows);
   })
@@ -115,7 +115,19 @@ const registration = (req, res) => {
     if(err) return res.status(500).json({ message: "Internal Server Error"});
     const Files = result.rows.length;
     if(!Files){
-      return res.status(200).json({ message: "There is no Files" })
+      return res.status(201).json({ message: "There is no Files" })
+    }
+    return res.status(200).json(result.rows);
+  })
+}
+
+const otherdoctor = (req, res) => {
+  const { sub_department_id ,doctor_id } = req.params;
+  pool.query(queries.otherdoctor, [ sub_department_id,doctor_id ], (err, result) => {
+    if(err) return res.status(500).json({ message: "Internal Server Error"});
+    const CertificateInformaiton = result.rows.length;
+    if(!CertificateInformaiton){
+      return res.status(200).json({ message: "There is no information"})
     }
     return res.status(200).json(result.rows);
   })
@@ -130,5 +142,6 @@ module.exports = {
   getDoctorInformation, 
   getDoctorCertificates,
   getMaterilaFiles,
-  registration
+  registration,
+  otherdoctor
 };

@@ -1,19 +1,19 @@
 import React from 'react';
 import { CheckCircle2, XCircle, ShoppingCart } from 'lucide-react';
 import clsx from 'clsx';
-// import { useDispatch } from 'react-redux';
-// import { addToCart } from '../store/cartSlice';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../features/cart/cartSlice';
 
 export default function CourseCard ({ course }){
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const isAvailable = course.available_seats > 0 && course.status;
 
-  // const handleAddToCart = () => {
-  //   dispatch(addToCart(course));
-  // };
+  const handleAddToCart = () => {
+    dispatch(addToCart(course));
+  };
 
   return (
-    <div className="bg-gray-900 text-white rounded-lg shadow-md p-6 mb-4 dark:bg-white dark:text-black">
+    <div className="bg-gray-900 dark:text-white rounded-lg shadow-md p-6 mb-4 dark:bg-white/90 dark:text-black">
       <div className="flex justify-between items-start">
         <div className='*:text-white dark:*:text-black'>
           <h3 className="text-xl font-semibold mb-2">{course.name}</h3>
@@ -33,7 +33,7 @@ export default function CourseCard ({ course }){
       </div>
       
       <button
-        // onClick={handleAddToCart}
+        onClick={handleAddToCart}
         disabled={!isAvailable}
         className={clsx(
           "w-full mt-4 py-2 px-4 rounded-md font-medium transition-colors flex items-center justify-center",

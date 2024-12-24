@@ -1,4 +1,4 @@
-import { Navbar, Hero, Information, About, Footer } from "./index"
+import { Navbar, Hero, Information, About, Footer, Section1, Section2 } from "./index"
 const Home = () => {
   return (
     <div className="max-w-screen-2xl m-auto">
@@ -6,6 +6,8 @@ const Home = () => {
       <Hero />
       <Information />
       <About />
+      <Section1 />
+      <Section2 />
       <Footer />
     </div>
   );

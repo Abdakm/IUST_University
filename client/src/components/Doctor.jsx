@@ -1,19 +1,28 @@
-import { useParams } from 'react-router-dom'
-import { PersonStanding , Award, Clock, CheckCircle, GraduationCap } from 'lucide-react';
-import useFetch from '../hooks/useFetch'
-import { Certificates, Navbar } from './index'
+import React, { useEffect } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { PersonStanding, Clock, GraduationCap } from 'lucide-react';
+import useFetch from '../hooks/useFetch';
+import { Certificates, Navbar, OtherDoctors } from './index';
 
 export default function Doctor() {
   const params = useParams();
+  const navigate = useNavigate(); // For navigation
   const { data, loading, error } = useFetch(`doctor/${params.id}`);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [params.id])
 
-  if (!data) return <div className="text-gray-800 dark:text-gray-200">Loading...</div>;
-
+  if (loading) return <div className="text-gray-800 dark:text-gray-200">Loading...</div>;
+  if (error) return <div className="text-red-600 dark:text-red-400">Failed to load data. Please try again.</div>;
+  if (!data || data.length === 0) {
+    return <div className="text-gray-800 dark:text-gray-200">No doctor information available.</div>;
+  }
+ 
   return (
     <div className="max-w-screen-2xl m-auto bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <Navbar />
-      <div className={`flex items-center justify-center max-md:mt-[100px]`} style={{ minHeight: 'calc(100vh)' }}>
+      <div className={`flex flex-col items-center justify-center max-md:mt-[100px] min-h-[700px]`}>
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 max-w-6xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Left Section - Doctor Info */}
@@ -22,7 +31,7 @@ export default function Doctor() {
                 <div className="md:w-1/3">
                   <img
                     src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=400&h=400"
-                    alt={data[0].doctor_name}
+                    alt={`Profile of Dr. ${data[0]?.doctor_name || 'Unnamed'}`}
                     className="w-full h-auto rounded-lg shadow-md"
                   />
                 </div>
@@ -31,7 +40,7 @@ export default function Doctor() {
                   <h1 className="text-3xl font-bold mb-2">{data[0].doctor_name}</h1>
                   <p className="text-lg text-blue-600 dark:text-blue-400 mb-4">Doctor Information</p>
 
-                  <div className="flex items-center gap-2 right-2 relative text-gray-600 dark:text-gray-300 mb-4">
+                  <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-4">
                     <PersonStanding className="w-7 h-7 text-blue-500 dark:text-blue-400" />
                     <span>Gender: {data[0].gender}</span>
                   </div>
@@ -60,6 +69,7 @@ export default function Doctor() {
           </div>
         </div>
       </div>
+      <OtherDoctors id={params.id}/>
     </div>
   );
 }

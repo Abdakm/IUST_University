@@ -16,6 +16,11 @@ import Doctor from './Doctor'
 import Certificates from './Certificates'
 import FileDownloadPage from './FileDownload/FileDownloadPage'
 import Page from './RegisterPage/Page'
+import Section1 from './Section1'
+import Section2 from './Section2'
+import OtherDoctors from './OtherDoctors'
+import Materials from './Materials'
+import Doctors from './Doctors'
 
 export {
 	About,
@@ -35,5 +40,10 @@ export {
 	Doctor,
 	Certificates,
 	FileDownloadPage,
-	Page
+	Page,
+	Section1,
+	Section2,
+	OtherDoctors,
+	Materials,
+	Doctors
 }

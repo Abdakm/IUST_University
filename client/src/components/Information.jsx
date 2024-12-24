@@ -35,7 +35,7 @@ const Information = () => {
   });
   return (
     <section className="flex flex-col md:flex-row items-center justify-evenly gap-6 py-6 max-w-screen-2xl">
-        <Link className="link relative max-w-sm p-6 border border-gray-200 rounded-lg shadow w-[300px] h-[300px] flex items-center justify-center *:text-primary hover:bg-primary *:hover:text-white transition-all duration-300">
+        <Link to='/materials' className="link relative max-w-sm p-6 border border-gray-200 rounded-lg shadow w-[300px] h-[300px] flex items-center justify-center *:text-primary hover:bg-primary *:hover:text-white transition-all duration-300">
             <h5 className="mb-2 text-2xl font-bold tracking-tight"><FaBook className="text-7xl hover:duration-300 border-gray-200"/></h5>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400"></p>
         </Link> 
@@ -43,7 +43,7 @@ const Information = () => {
             <h5 className="mb-2 text-2xl font-bold tracking-tight"><FaPaperPlane className="text-7xl hover:duration-300 border-gray-200"/></h5>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400"></p>
         </Link> 
-        <Link className="link max-w-sm p-6 border border-gray-200 rounded-lg shadow w-[300px] h-[300px] flex items-center justify-center *:text-primary hover:bg-primary *:hover:text-white transition-all duration-300">
+        <Link to='/doctors' className="link max-w-sm p-6 border border-gray-200 rounded-lg shadow w-[300px] h-[300px] flex items-center justify-center *:text-primary hover:bg-primary *:hover:text-white transition-all duration-300">
             <h5 className="mb-2 text-2xl font-bold tracking-tight"><FaUserDoctor className="text-7xl hover:duration-300 border-gray-200"/></h5>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400"></p>
         </Link> 

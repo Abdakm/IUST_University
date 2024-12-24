@@ -3,11 +3,6 @@ const controller = require("./controller");
 
 const router = Router();
 
-// const mustLoggingin = (req, res, next) => {
-//     if(!req.session.user) return res.status(401).json({message: 'your not authentication'})
-//     next()
-// }
-
 router.post("/", controller.authentication);
 router.post('/studentInformation', controller.studentInformation);
 router.get('/registration', controller.registration);
@@ -17,6 +12,7 @@ router.get('/getCourseSubDepartment/:sub_department_id', controller.getCourseSub
 router.get('/doctor/:doctor_id', controller.getDoctorInformation)
 router.get('/course/:course_id', controller.getMaterilaFiles);
 router.get('/certificates/:doctor_id', controller.getDoctorCertificates);
+router.get('/otherdoctor/:sub_department_id/:doctor_id', controller.otherdoctor);
 
 
 module.exports = router;

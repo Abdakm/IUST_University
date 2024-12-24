@@ -1,3 +1,5 @@
+//Table.jsx
+
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -11,9 +13,14 @@ export default function Table({ api, styles }) {
         async function getData() {
             try {
                 const response = await axios.get(api);
-                setData(response.data);
+                if (response.status === 200 && Array.isArray(response.data)) {
+                    setError(null);
+                    setData(response.data);
+                } else {
+                    setError("Unexpected response format or no data available.");
+                }
             } catch (err) {
-                setError(err.response?.data || err.message);
+                setError(err.response?.data.message || "Unable to fetch data.");
             } finally {
                 setLoading(false);
             }
@@ -23,12 +30,21 @@ export default function Table({ api, styles }) {
     }, [api]);
 
     if (loading) return <div className="dark:text-white text-black">Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-    if (data.length === 0) return <div>No data available.</div>;
+    if (error) return <div className="text-red-500">{error}</div>;
+    if (data.length === 0) return <div className="text-center text-gray-500">No data available.</div>;
 
     const headers = Object.keys(data[0]);
     const isDoctorSubDepartment = api.includes("getDoctorSubDepartment");
     const isCourseSubDepartment = api.includes("getCourseSubDepartment");
+
+    const linkMappings = {
+        doctor_name: (row) => `doctor/${row.doctor_id}`,
+        course_name: (row) => `course/${row.material_id}`,
+    };
+
+    const getLink = (header, row) => {
+        return linkMappings[header] ? linkMappings[header](row) : null;
+    };
 
     return (
         <div className={`max-w-screen-2xl mt-8 ${styles}`}>
@@ -62,31 +78,22 @@ export default function Table({ api, styles }) {
                                 {headers.map((header, colIndex) => (
                                     <td
                                         key={colIndex}
-                                        className={`px-6 py-4 text-center 
-                                        ${ (isDoctorSubDepartment || isCourseSubDepartment) && colIndex === 0 ? "hidden" : "" }`}
+                                        className={`px-6 py-4 text-center ${
+                                            (isDoctorSubDepartment || isCourseSubDepartment) && colIndex === 0
+                                                ? "hidden"
+                                                : ""
+                                        }`}
                                     >
-                                        {(isDoctorSubDepartment || isCourseSubDepartment) && colIndex === 0
-                                            ? null
-                                            : isDoctorSubDepartment && header === "doctor_name" // Example header key for the doctor link
-                                            ? (
-                                                <Link
-                                                    to={`doctor/${row["doctor_id"]}`}
-                                                    className="text-blue-500 hover:underline"
-                                                >
-                                                    {row[header]}
-                                                </Link>
-                                            )
-                                            : isCourseSubDepartment && header === "course_name" // Example header key for the doctor link
-                                            ? (
-                                                <Link
-                                                    to={`course/${row["material_id"]}`}
-                                                    className="text-blue-500 hover:underline"
-                                                    state={{materialName: row['course_name']}}
-                                                >
-                                                    {row[header]}
-                                                </Link>
-                                            )
-                                            : row[header]}
+                                        {getLink(header, row) ? (
+                                            <Link
+                                                to={getLink(header, row)}
+                                                className="text-blue-500 hover:underline"
+                                            >
+                                                {row[header]}
+                                            </Link>
+                                        ) : (
+                                            row[header]
+                                        )}
                                     </td>
                                 ))}
                             </tr>
