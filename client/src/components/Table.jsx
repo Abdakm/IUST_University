@@ -2,12 +2,21 @@
 
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function Table({ api, styles }) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const isDoctorSubDepartment = api.includes("getDoctorSubDepartment");
+    const isCourseSubDepartment = api.includes("getCourseSubDepartment");
+    
+    const isSubDepartment = api.includes("sub_department")
+    const isMaterials = api.includes("materials");
+
+    const location = useLocation()
 
     useEffect(() => {
         async function getData() {
@@ -17,7 +26,11 @@ export default function Table({ api, styles }) {
                     setError(null);
                     setData(response.data);
                 } else {
-                    setError("Unexpected response format or no data available.");
+                    if(isMaterials){
+                        setError("There is no materials for this sub_department")
+                    } else {
+                        setError("Unexpected response format or no data available.");
+                    }
                 }
             } catch (err) {
                 setError(err.response?.data.message || "Unable to fetch data.");
@@ -34,16 +47,34 @@ export default function Table({ api, styles }) {
     if (data.length === 0) return <div className="text-center text-gray-500">No data available.</div>;
 
     const headers = Object.keys(data[0]);
-    const isDoctorSubDepartment = api.includes("getDoctorSubDepartment");
-    const isCourseSubDepartment = api.includes("getCourseSubDepartment");
 
     const linkMappings = {
         doctor_name: (row) => `doctor/${row.doctor_id}`,
         course_name: (row) => `course/${row.material_id}`,
+        name: (row) => `${row.sub_dep_id}`
     };
 
+    function handleClick() {
+    const currentValue = Cookies.get('check');
+
+    if (currentValue === 'false') {
+        Cookies.set('check', true);
+    } 
+    else {
+        // Cookies.set('check', false);
+        return
+    }
+}
+
     const getLink = (header, row) => {
-        return linkMappings[header] ? linkMappings[header](row) : null;
+        const link = linkMappings[header] ? linkMappings[header](row) : null;
+
+        if (location.pathname.match(/^\/materials\/\d+$/) && header === "name" && link !== null) {
+            const newId = link;
+            return location.pathname.replace(/\/\d+$/, `/${newId}`);
+        }
+
+        return link;
     };
 
     return (
@@ -57,10 +88,10 @@ export default function Table({ api, styles }) {
                                     key={index}
                                     scope="col"
                                     className={`px-6 py-3 text-center ${
-                                        (isDoctorSubDepartment || isCourseSubDepartment) && index === 0 ? "hidden" : ""
+                                        (isDoctorSubDepartment || isCourseSubDepartment || isSubDepartment || isMaterials) && index === 0 ? "hidden" : ""
                                     }`}
                                 >
-                                    {(isDoctorSubDepartment || isCourseSubDepartment) && index === 0 ? null : header}
+                                    {(isDoctorSubDepartment || isCourseSubDepartment || isSubDepartment || isMaterials) && index === 0 ? null : header}
                                 </th>
                             ))}
                         </tr>
@@ -79,7 +110,7 @@ export default function Table({ api, styles }) {
                                     <td
                                         key={colIndex}
                                         className={`px-6 py-4 text-center ${
-                                            (isDoctorSubDepartment || isCourseSubDepartment) && colIndex === 0
+                                            (isDoctorSubDepartment || isCourseSubDepartment || isSubDepartment || isMaterials) && colIndex === 0
                                                 ? "hidden"
                                                 : ""
                                         }`}
@@ -88,6 +119,7 @@ export default function Table({ api, styles }) {
                                             <Link
                                                 to={getLink(header, row)}
                                                 className="text-blue-500 hover:underline"
+                                                onClick = {() => handleClick()}
                                             >
                                                 {row[header]}
                                             </Link>

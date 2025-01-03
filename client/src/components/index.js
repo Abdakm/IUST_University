@@ -20,6 +20,7 @@ import Section1 from './Section1'
 import Section2 from './Section2'
 import OtherDoctors from './OtherDoctors'
 import Materials from './Materials'
+import Materials2 from './Materials2'
 import Doctors from './Doctors'
 
 export {
@@ -45,5 +46,6 @@ export {
 	Section2,
 	OtherDoctors,
 	Materials,
+	Materials2,
 	Doctors
 }

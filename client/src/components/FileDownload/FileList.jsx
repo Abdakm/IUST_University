@@ -13,7 +13,7 @@ const FileList = ({ files }) => {
   return (
     <div className="space-y-4">
       {files.map((file, index) => (
-        <FileListItem index={index} file={file} />
+        <FileListItem index={index} file={file} key={index} />
       ))}
     </div>
   );

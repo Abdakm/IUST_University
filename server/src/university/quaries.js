@@ -11,7 +11,7 @@ JOIN department d on s.dep_id = d.dep_id and s.student_id = $1
 JOIN sub_department sd on s.sub_dep_id = sd.sub_dep_id and s.student_id = $1;
 `;
 const studentCourse = `
-SELECT m.name as Course_Name, m.code as Course_Code, d.doctor_name as Doctor_Name, m.lap_or_not as Type, am.hall_number as Hall_Number
+SELECT m.name as Course, m.code as Course_Code, d.doctor_name as Doctor, m.lap_or_not as Type, am.hall_number as Hall_Number
 FROM booking_online bo
 JOIN available_material am ON bo.id_available_material = am.id_available_material
 JOIN material m ON am.material_id = m.material_id
@@ -57,6 +57,18 @@ JOIN doctor d on d.doctor_id = dsd.doctor_id
 WHERE dsd.sub_dep_id = $1 and d.doctor_id <> $2;
 `
 
+const departments = `
+  SELECT * FROM department order by dep_id;
+`
+
+const sub_department = `
+  select sub_dep_id, name, years, hours, cost_for_hour, sub_dep_boss from sub_department where dep_id = $1 order by years;
+`
+
+const materials = `
+  select material_id, name as material_name, code as material_code, lap_or_not, hours from material where sub_dep_id = $1;
+`
+
 module.exports = {
   authentication,
   studentInformation,
@@ -67,5 +79,8 @@ module.exports = {
   getDoctorCertificates,
   getMaterilaFiles,
   registration,
-  otherdoctor
+  otherdoctor,
+  departments,
+  sub_department,
+  materials
 };

@@ -127,7 +127,45 @@ const otherdoctor = (req, res) => {
     if(err) return res.status(500).json({ message: "Internal Server Error"});
     const CertificateInformaiton = result.rows.length;
     if(!CertificateInformaiton){
-      return res.status(200).json({ message: "There is no information"})
+      return res.status(201).json({ message: "There is no information"})
+    }
+    return res.status(200).json(result.rows);
+  })
+}
+
+const departments = (req, res) => {
+  pool.query(queries.departments, (err, result) => {
+    if(err) return res.status(500).json({ message: "Internal Server Error"});
+    const DepartmentsInformaiton = result.rows.length;
+    if(!DepartmentsInformaiton){
+      return res.status(201).json({ message: "There is no information"})
+    }
+    return res.status(200).json(result.rows);
+  })
+}
+
+const sub_department = (req, res) => {
+  const { department_id } = req.params
+  pool.query(queries.sub_department, [ department_id ], (err, result) => {
+    if(err) return res.status(500).json({ message: "Internal Server Error"});
+    const SubDepartmentsInformaiton = result.rows.length;
+    if(!SubDepartmentsInformaiton){
+      return res.status(201).json({ message: "There is no information"})
+    }
+    return res.status(200).json(result.rows);
+  })
+}
+
+const materials = (req, res) => {
+  const { sub_department_id } = req.params
+  pool.query(queries.materials, [ sub_department_id ], (err, result) => {
+    if(err) return res.status(500).json({ message: "Internal Server Error"});
+    const materialsInformation = result.rows.length;
+    // if(materialsInformation === 0){
+    //   return res.status(200).json({ message: 'There is no Materials in this department'})
+    // }
+    if(!materialsInformation){
+      return res.status(201).json({ message: "There is no information"})
     }
     return res.status(200).json(result.rows);
   })
@@ -143,5 +181,8 @@ module.exports = {
   getDoctorCertificates,
   getMaterilaFiles,
   registration,
-  otherdoctor
+  otherdoctor,
+  departments,
+  sub_department,
+  materials
 };

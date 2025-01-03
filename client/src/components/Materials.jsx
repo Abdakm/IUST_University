@@ -1,43 +1,74 @@
-import { LinkBox, Table, Navbar } from './index'
+import { LinkBox, Table, Navbar, Materials2 } from './index';
+import React, { useState, useEffect } from 'react';
+import useFetch from '../hooks/useFetch';
+import Cookies from "js-cookie";
 import axios from 'axios'
-import React, { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
-export default function Materials(){
-	const [activeIndex, setActiveIndex] = useState(null);
+export default function Materials() {
+    const [activeIndex, setActiveIndex] = useState(null);
+    const [subDepartmentId, setSubDepartmentId] = useState([]);
+    const { data, error, loading } = useFetch('/departments');
+    const navigate = useNavigate()
+    const params = useParams()
+    const isNumber = isNaN(params.id)
 
-    function handleShow(index){
+    // useEffect(() => {
+    //     console.log('Departments:', subDepartmentId);
+    // }, [data, activeIndex]); 
+
+    const getApi = (index) => {
+        const url = `http://localhost:4000/university/sub_department/${data[index]?.dep_id}`;
+        // axios
+        //     .get(url)
+        //     .then((response) => {
+        //         // setSubDepartmentId(response.data);
+        //         console.log('done')
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error fetching sub-department data:', error);
+        //     });
+        return url;
+    };
+
+    function handleShow(index) {
+        const cookieValue = Cookies.get('check');
+        if (!cookieValue) {
+            Cookies.set('check', 'true');
+        } else {
+            Cookies.set('check', cookieValue === 'true' ? 'false' : 'true');
+        }
+        navigate('/materials', { replace: true });
         setActiveIndex((prev) => (prev === index ? null : index));
     }
 
-    const getApi = (index) => {
-        switch (index) {
-            case 1: return `http://localhost:4000/university/getStudentHomework/1`;
-            case 2: return `http://localhost:4000/university/getMessages/1`;
-            case 3: return `http://localhost:4000/university/getCourseSubDepartment/1`;
-            case 4: return `http://localhost:4000/university/getDoctorSubDepartment/1`;
-            default: return null;
-        }
-    };
-	return(
-		<div className='max-w-screen-2xl m-auto min-h-screen'>
-		<Navbar />
-            <div className='pt-20'>
-                <div className=''>
-                    <div className='flex mt-8 justify-center gap-8'>
-                        <LinkBox styles={'basis-2/5'} title={'Homework'} toggle={() => handleShow(1)} desc={'Student Homework'} />
-                        <LinkBox styles={'basis-2/5'} title={'Messages'} toggle={() => handleShow(2)} desc={'Student Messages'} />
-                    </div>
-                    <div className='flex mt-8 justify-center gap-8'>
-                        <LinkBox styles={'basis-2/5'} title={'Courses'} toggle={() => handleShow(3)} desc={'Show All Courses'} />
-                        <LinkBox styles={'basis-2/5'} title={'Doctors'} toggle={() => handleShow(4)} desc={'Show All Doctors'} />
-                    </div>
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+    if (!Array.isArray(data) || data.length === 0) return <div>No departments available.</div>;
+
+    return (
+        <div className="max-w-screen-2xl m-auto min-h-screen pt-8">
+            <Navbar />
+            <div className="pt-20">
+                <div className="flex flex-wrap justify-center gap-8">
+                    {data.map((department, index) => (
+                        <LinkBox
+                            key={index}
+                            styles="basis-2/5"
+                            title={department.department_name}
+                            toggle={() => handleShow(index)}
+                            desc={`View details for ${department.department_name}`}
+                        />
+                    ))}
                 </div>
-                <div className='flex justify-center'>
-                {activeIndex !== null && (
-                    <Table api={getApi(activeIndex)} styles={'basis-4/5'}/>
-                )}
+                <div className="flex justify-center pb-8">
+                    {activeIndex !== null && (
+                        <Table api={getApi(activeIndex)} styles="basis-4/5" />
+                    )}
                 </div>
+                {/*{Cookies.get('check') && <Materials2 index={activeIndex !== null ? data[activeIndex]?.dep_id : null} />}*/}
+                {Cookies.get('check') && !isNumber &&<Materials2 />}
             </div>
-		</div>
-	)
+        </div>
+    );
 }
