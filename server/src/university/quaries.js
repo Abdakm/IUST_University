@@ -64,11 +64,11 @@ const departments = `
 `
 
 const sub_department = `
-  select sub_dep_id, name_en, years, hours, cost_for_hour, sub_dep_boss from sub_department where dep_id = $1 order by years;
+  select sub_dep_id, name_en,name_ar, years, hours, cost_for_hour, sub_dep_boss from sub_department where dep_id = $1 order by years;
 `
 
 const materials = `
-  select material_id, name_en as material_name, code as material_code, lap_or_not, hours from material where sub_dep_id = $1;
+  select material_id, name_en as material_name_en, name_ar as material_name_ar, code as material_code, lap_or_not_en, hours from material where sub_dep_id = $1;
 `
 
 module.exports = {

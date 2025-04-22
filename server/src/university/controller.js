@@ -156,6 +156,7 @@ const sub_department = (req, res) => {
 
 const materials = (req, res) => {
   const { sub_department_id } = req.params
+  console.log(sub_department_id)
   pool.query(queries.materials, [ sub_department_id ], (err, result) => {
     if(err) return res.status(500).json({ message: "Internal Server Error"});
     const materialsInformation = result.rows.length;

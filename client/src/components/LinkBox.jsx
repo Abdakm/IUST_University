@@ -6,8 +6,6 @@ import { useLanguage } from "../contexts/languageContext";
 
 export default function LinkBox(props) {
 	const { language } = useLanguage();
-
-	// Translate titles
 	const getTitle = () => {
 		if (language === 'AR') {
 			switch (props.title) {
@@ -20,8 +18,6 @@ export default function LinkBox(props) {
 		}
 		return props.title;
 	};
-
-	// Translate descriptions
 	const getDesc = () => {
 		if (language === 'AR') {
 			switch (props.title) {
@@ -34,7 +30,6 @@ export default function LinkBox(props) {
 		}
 		return props.desc;
 	};
-
 	return (
 		<button
 			data-index={props.keys}

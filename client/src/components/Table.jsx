@@ -79,7 +79,7 @@ export default function Table({ api, styles }) {
     const getLink = (header, row) => {
         const link = linkMappings[header] ? linkMappings[header](row) : null;
 
-        if (location.pathname.match(/^\/materials\/\d+$/) && header === "name" && link !== null) {
+        if (location.pathname.match(/^\/materials\/\d+$/) && header === "name_ar" || header === "name_en" && link !== null) {
             const newId = link;
             return location.pathname.replace(/\/\d+$/, `/${newId}`);
         }
