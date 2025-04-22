@@ -6,11 +6,13 @@ import Cookies from "js-cookie";
 import {Sidebar, Toggle} from './index'
 import { MdOutlineNotificationsNone } from "react-icons/md";
 import { FaRegMessage } from "react-icons/fa6";
-
+import { useLanguage } from "../contexts/languageContext"; 
+import translations from "../constants/translations";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, setUser } = useStore();
+  const { language, toggleLanguage } = useLanguage();
 
   function handleLogout() {
     Cookies.remove("username");
@@ -70,7 +72,7 @@ const Navbar = () => {
                 to={"/"}
                 className="block py-2 px-3 bg-blue-700 rounded md:bg-transparent text-secondary md:p-0 dark:text-white"
                 aria-current="page">
-                Home
+                {translations[language].home}
               </Link>
             </li>
             {user == null && (
@@ -79,7 +81,19 @@ const Navbar = () => {
                   <Link
                     to={"/login"}
                     className="block text-center py-2 px-3 text-white rounded md:hover:bg-transparent md:border-0 md:p-0 dark:text-white ">
-                    Login
+                    {translations[language].login}
+                  </Link>
+                </li>
+                <li className="ml-7">
+                  <Link
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleLanguage();
+                    }}
+                    to="/"
+                    className="block text-center py-2 px-3 text-white rounded md:hover:bg-transparent md:border-0 md:p-0 dark:text-white"
+                  >
+                    {language}
                   </Link>
                 </li>
               <Toggle style={'justify-center'}/>
@@ -91,9 +105,21 @@ const Navbar = () => {
                 <button
                   onClick={handleLogout}
                   className="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-white">
-                  Logout
+                  {translations[language].logout}
                 </button>
               </li>
+                <li className="ml-7">
+                  <Link
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleLanguage();
+                    }}
+                    to="/"
+                    className="block text-center py-2 px-3 text-white rounded md:hover:bg-transparent md:border-0 md:p-0 dark:text-white"
+                  >
+                    {language}
+                  </Link>
+                </li>
               <Toggle />
               <Sidebar />
               </div>

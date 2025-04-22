@@ -1,11 +1,19 @@
 import React from 'react';
 import FileListItem from './FileListItem';
+import { useLanguage } from '../../contexts/languageContext';
 
 const FileList = ({ files }) => {
-  if (!files || files.length === 0) {
+  const { language } = useLanguage();
+
+  // If it's an object with only a "message" key, show "no information"
+  const isMessageOnly = files && typeof files === 'object' && 'message' in files && Object.keys(files).length === 1;
+
+  if (!files || isMessageOnly || (Array.isArray(files) && files.length === 0)) {
     return (
       <div className="text-center p-8 bg-gray-50 rounded-lg">
-        <p className="text-gray-600">No files available for download.</p>
+        <p className="text-gray-600">
+          {language === "EN" ? 'No files available for download.' : 'لا توجد ملفات متاحة للتحميل.'}
+        </p>
       </div>
     );
   }

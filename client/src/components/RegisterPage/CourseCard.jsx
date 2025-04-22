@@ -4,9 +4,29 @@ import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../features/cart/cartSlice';
 
-export default function CourseCard ({ course }){
+import { useLanguage } from "../../contexts/languageContext";
+
+export default function CourseCard({ course }) {
   const dispatch = useDispatch();
   const isAvailable = course.available_seats > 0 && course.status;
+  const { language } = useLanguage();
+
+  const translations = {
+    EN: {
+      building: "Building",
+      hall: "Hall",
+      seats: "Available Seats",
+      register: "Register This Course",
+    },
+    AR: {
+      building: "المبنى",
+      hall: "القاعة",
+      seats: "المقاعد المتاحة",
+      register: "تسجيل هذه المادة",
+    }
+  };
+
+  const t = translations[language] || translations.en;
 
   const handleAddToCart = () => {
     dispatch(addToCart(course));
@@ -17,10 +37,10 @@ export default function CourseCard ({ course }){
       <div className="flex justify-between items-start">
         <div className='*:text-white dark:*:text-black'>
           <h3 className="text-xl font-semibold mb-2">{course.name}</h3>
-          <p className="text-gray-600 mb-1">Building: {course.build_number}</p>
-          <p className="text-gray-600 mb-1">Hall: {course.hall_number}</p>
+          <p className="text-gray-600 mb-1">{t.building}: {course.build_number}</p>
+          <p className="text-gray-600 mb-1">{t.hall}: {course.hall_number}</p>
           <p className="text-gray-600 mb-3">
-            Available Seats: <span className="font-medium">{course.available_seats}</span>
+            {t.seats}: <span className="font-medium">{course.available_seats}</span>
           </p>
         </div>
         <div className="flex items-center">
@@ -31,7 +51,7 @@ export default function CourseCard ({ course }){
           )}
         </div>
       </div>
-      
+
       <button
         onClick={handleAddToCart}
         disabled={!isAvailable}
@@ -43,8 +63,8 @@ export default function CourseCard ({ course }){
         )}
       >
         <ShoppingCart className="h-5 w-5 mr-2" />
-        Register This Course
+        {t.register}
       </button>
     </div>
   );
-};
+}

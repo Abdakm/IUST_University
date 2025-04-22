@@ -13,8 +13,12 @@ import { Toaster } from 'react-hot-toast';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 // import { fetchCourses } from './store/coursesSlice';
 
+import { useLanguage } from "../../contexts/languageContext";
+
+
 export default function Page (){
   const dispatch = useDispatch();
+  const { language } = useLanguage();
   // const { items: courses, loading, error } = useSelector(state => state.courses);
 
   // useEffect(() => {
@@ -31,7 +35,7 @@ export default function Page (){
       <Navbar />
       <div className="container mx-auto px-4 py-8 relative" style={{ minHeight: 'calc(100vh - 84px)' }}>
         <h1 className="text-3xl font-bold text-gray-800 mb-8">
-          Course Registration
+          {language === 'EN' ? 'Course Registration' : 'تسجيل الدورة'}
         </h1>
         <CourseList courses={data} />
       <Cart />

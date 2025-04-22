@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../contexts/languageContext'
 
 export default function Sidebar() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const { language } = useLanguage();
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -56,7 +58,7 @@ export default function Sidebar() {
                   <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                 </svg>
-                <span className="ms-3">التسجيل الالكتروني</span>
+                <span className="ms-3">{language === 'EN' ? 'Electronic registration' :'التسجيل الالكتروني'}</span>
               </Link>
             </li>
             <li>
@@ -74,7 +76,7 @@ export default function Sidebar() {
                   <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                 </svg>
-                <span className="ms-3">Dashboard</span>
+                <span className="ms-3">{language === "EN" ? 'Dashboard' :'لوحة القيادة'}</span>
               </Link>
             </li>
             {/* Add other menu items here */}

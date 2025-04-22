@@ -3,11 +3,14 @@ import { Home, Login, Account } from "./components/index";
 import { useStore } from "./contexts/userContext";
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
+import { useLanguage } from "./contexts/languageContext";
 
 function App() {
   const { user, setUser } = useStore();
+  const { language } = useLanguage();
+
   return (
-    <div className="select-none mt-20">
+    <div className="select-none mt-20" >
       { user === null 
       ? <Home />
       : <Account />

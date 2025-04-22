@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 
 import { UserProvider } from "./contexts/userContext";
+import { LanguageProvider } from "./contexts/languageContext";
 
 //Pages
 import App from "./App.jsx";
@@ -17,6 +18,10 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { Login, Account, Doctor, FileDownloadPage, Page, Materials, Doctors, Page404 } from "./components/index";
 import Cookies from "js-cookie";
+
+if (!Cookies.get("language")) {
+  Cookies.set("language", 'EN');
+}
 
 const ProtectedRoute = ({ element }) => {
   const username = Cookies.get("username");
@@ -67,11 +72,15 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       {/* here I can put the context varibels */}
-      <UserProvider>
-        <PersistGate loading={"...Loading"} persistor={persistor}>
-          <RouterProvider router={router} />
-        </PersistGate>
-      </UserProvider>
+      <LanguageProvider>
+        <UserProvider>
+          <PersistGate loading={"...Loading"} persistor={persistor}>
+            {/*<Suspense fallback={<div>Loading...</div>}>*/}
+              <RouterProvider router={router} />
+            {/*</Suspense>*/}
+          </PersistGate>
+        </UserProvider>
+      </LanguageProvider>
     </Provider>
   </StrictMode>
 );

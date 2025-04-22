@@ -5,14 +5,17 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 
+import { useLanguage } from '../contexts/languageContext'
+
 export default function Table({ api, styles }) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const { language } = useLanguage();
+
     const isDoctorSubDepartment = api.includes("getDoctorSubDepartment");
     const isCourseSubDepartment = api.includes("getCourseSubDepartment");
-    
     const isSubDepartment = api.includes("sub_department")
     const isMaterials = api.includes("materials");
 
@@ -46,12 +49,19 @@ export default function Table({ api, styles }) {
     if (error) return <div className="text-red-500">{error}</div>;
     if (data.length === 0) return <div className="text-center text-gray-500">No data available.</div>;
 
-    const headers = Object.keys(data[0]);
+    let headers = Object.keys(data[0]);
+
+    const headers1 = headers.filter((ele) => !ele.split('_').includes('en'));
+    const headers2 = headers.filter((ele) => !ele.split('_').includes('ar'));
+
+    headers = language === 'EN' ? headers2 : headers1;
 
     const linkMappings = {
         doctor_name: (row) => `doctor/${row.doctor_id}`,
-        course_name: (row) => `course/${row.material_id}`,
-        name: (row) => `${row.sub_dep_id}`
+        course_name_en: (row) => `course/${row.material_id}`,
+        course_name_ar: (row) => `course/${row.material_id}`,
+        name_en: (row) => `${row.sub_dep_id}`,
+        name_ar: (row) => `${row.sub_dep_id}`,
     };
 
     function handleClick() {

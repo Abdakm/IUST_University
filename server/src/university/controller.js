@@ -67,12 +67,10 @@ const getDoctorInformation = (req, res) => {
   const { doctor_id } = req.params;
 
   if (isNaN(+doctor_id)) {
-    console.log('Not a valid number');
     return res.status(404).json({ message: "Invalid doctor ID" });
   }
   pool.query(queries.getDoctorInformation, [parseInt(doctor_id, 10)], (err, result) => {
     if (err) {
-      console.error('Database Error:', err);
       return res.status(500).json({ message: "Internal Server Error" });
     }
 
